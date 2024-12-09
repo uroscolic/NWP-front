@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { PermissionService } from '../../../service/permisions.service';
 import { NavigationComponent } from '../../../components/navigation/navigation.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const HOME = '/home';
@@ -27,7 +28,8 @@ const HOME = '/home';
     MatSortModule,
     NavigationComponent,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './all-users.component.html',
   styleUrl: './all-users.component.css',
@@ -41,7 +43,7 @@ export class AllUsersComponent implements OnInit {
   dataSource: MatTableDataSource<UserViewModel> = new MatTableDataSource<UserViewModel>([]);
   subscriptions: Subscription[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   constructor(private userService: UserService, private router: Router, private permissionService: PermissionService) { }
 
   ngOnInit(): void {
@@ -63,14 +65,12 @@ export class AllUsersComponent implements OnInit {
   }
 
   canDelete(): Boolean {
-    console.log("aaaaaaaaaaaaaaaaaa");
-    console.log("canDelete", this.permissionService.hasPermission('can_delete'));
     return this.permissionService.hasPermission('can_delete');
   }
 
   toggleDelete(user: UserViewModel): void {
 
-    const userHelper : UserDeleteModel = {
+    const userHelper: UserDeleteModel = {
       username: user.username,
       deleted: user.deleted
     };
@@ -87,7 +87,7 @@ export class AllUsersComponent implements OnInit {
 
   }
 
-  navigateToEditUser(user: UserViewModel){
+  navigateToEditUser(user: UserViewModel) {
     this.router.navigate(['/edit-user'], { state: { user } });
   }
 
