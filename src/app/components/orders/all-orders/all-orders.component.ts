@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -29,7 +29,6 @@ const HOME = '/home';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     MatPaginatorModule,
     MatSortModule,
     NavigationComponent,

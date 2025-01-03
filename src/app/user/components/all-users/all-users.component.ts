@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { Router, RouterOutlet } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
+import { Router } from '@angular/router';
 import { UserDeleteModel, UserViewModel } from '../../../model/user-model';
 import { UserService } from '../../../service/user.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -22,8 +21,6 @@ const HOME = '/home';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
-    LoginComponent,
     MatPaginatorModule,
     MatSortModule,
     NavigationComponent,
