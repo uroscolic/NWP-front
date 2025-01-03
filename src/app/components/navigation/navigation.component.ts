@@ -35,11 +35,29 @@ export class NavigationComponent {
 
   userRoutes = [
     { name: 'Users', url: '/users', icon: 'group' },
-    { name: 'Create User', url: '/create-user', icon: 'person_add_alt'},
+    { name: 'Create User', url: '/create-user', icon: 'person_add_alt' },
+    { name: 'Dishes', url: '/dishes', icon: 'fastfood' },
+    { name: 'Create Dish', url: '/create-dish', icon: 'soup_kitchen' },
+    { name: 'Order', url: '/create-order', icon: 'shopping_cart' },
+    { name: 'All Orders', url: '/orders', icon: 'list_alt' },
+    { name: 'Error Log', url: '/errors', icon: 'error' },
+
   ];
 
   userRoutesWithoutCreateUser = [
     { name: 'Users', url: '/users', icon: 'group' },
+    { name: 'Dishes', url: '/dishes', icon: 'fastfood' },
+    { name: 'Order', url: '/order', icon: 'shopping_cart' },
+    { name: 'All Orders', url: '/orders', icon: 'list_alt' },
+    { name: 'Error Log', url: '/errors', icon: 'error' },
+
+  ];
+
+  withoutUserPermissions = [
+    { name: 'Dishes', url: '/dishes', icon: 'fastfood' },
+    { name: 'Order', url: '/create-order', icon: 'shopping_cart' },
+    { name: 'Error Log', url: '/errors', icon: 'error' },
+
   ];
 
   routes: any[] = this.userRoutes;
@@ -56,10 +74,30 @@ export class NavigationComponent {
   }
 
   setRoutes() {
-    if(!this.permissionService.hasPermission('can_read'))
-      this.routes = [];  
-    else
-      this.permissionService.hasPermission('can_create') ? this.routes = this.userRoutes : this.routes = this.userRoutesWithoutCreateUser;
+
+    if (!this.permissionService.hasPermission('can_place_order')) {
+      this.routes = [];
+      return;
+    }
+
+    const canRead = this.permissionService.hasPermission('can_read');
+    const canCreate = this.permissionService.hasPermission('can_create');
+
+    if (canRead && canCreate)
+      this.routes = this.userRoutes;
+    else if (canRead)
+      this.routes = this.userRoutesWithoutCreateUser;
+    else {
+      this.routes = this.withoutUserPermissions;
+      if (this.permissionService.hasPermission('can_search_order')) {
+        this.routes.push({ name: 'All Orders', url: '/orders', icon: 'list_alt' });
+      }
+      if (this.permissionService.hasPermission('can_place_order')) {
+        this.routes.push({ name: 'Order', url: '/create-order', icon: 'shopping_cart' });
+      }
+    }
+
+
   }
 
   toggleMenu() {

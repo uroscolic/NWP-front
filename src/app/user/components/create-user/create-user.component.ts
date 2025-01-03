@@ -60,14 +60,47 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       can_create: [false],
       can_read: [false],
       can_update: [false],
-      can_delete: [false]
-    });
-    this.registerForm.valueChanges.subscribe(values => {
-      if ((values.can_create || values.can_update || values.can_delete) && !values.can_read) {
-        this.registerForm.patchValue({ can_read: true });
-      }
+      can_delete: [false],
+      can_search_order: [false],
+      can_place_order: [false],
+      can_cancel_order: [false],
+      can_track_order: [false],
+      can_schedule_order: [false]
     });
     this.resetData();
+    this.registerForm.valueChanges.subscribe(values => {
+
+      if ((values.can_create || values.can_update || values.can_delete) && !values.can_read) {
+        this.registerForm.patchValue({ can_read: true,
+          can_place_order: true,
+          can_search_order: true,
+          can_cancel_order: true,
+          can_track_order: true,
+          can_schedule_order: true
+         }, { emitEvent: false });
+      }
+    
+      if (values.can_read) {
+        this.registerForm.patchValue({
+          can_place_order: true,
+          can_search_order: true,
+          can_cancel_order: true,
+          can_track_order: true,
+          can_schedule_order: true
+        }, { emitEvent: false });
+      }
+    
+      if (
+        values.can_search_order ||
+        values.can_cancel_order ||
+        values.can_track_order ||
+        values.can_schedule_order
+      ) {
+        this.registerForm.patchValue({ can_place_order: true }, { emitEvent: false });
+      }
+    });
+    
+    
   }
 
   onSubmit(): void {
@@ -80,6 +113,11 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       const can_create = this.registerForm.value.can_create;
       const can_delete = this.registerForm.value.can_delete;
       const can_update = this.registerForm.value.can_update;
+      const can_search_order = this.registerForm.value.can_search_order;
+      const can_place_order = this.registerForm.value.can_place_order;
+      const can_cancel_order = this.registerForm.value.can_cancel_order;
+      const can_track_order = this.registerForm.value.can_track_order;
+      const can_schedule_order = this.registerForm.value.can_schedule_order;
 
       const registerPost: UserCreateModel = {
         firstname: registerFirstname,
@@ -89,7 +127,12 @@ export class CreateUserComponent implements OnInit, OnDestroy {
         can_create: can_create,
         can_read: can_read,
         can_delete: can_delete,
-        can_update: can_update
+        can_update: can_update,
+        can_search_order: can_search_order,
+        can_place_order: can_place_order,
+        can_cancel_order: can_cancel_order,
+        can_track_order: can_track_order,
+        can_schedule_order: can_schedule_order
       };
 
       this.subscriptions.push(this.userService.addUser(registerPost)
@@ -113,8 +156,6 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       this.registerFailed = true;
     }
   }
-
-
 
   resetData() {
     this.registerFailed = false;

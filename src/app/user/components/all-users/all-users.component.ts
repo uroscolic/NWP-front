@@ -39,10 +39,12 @@ export class AllUsersComponent implements OnInit {
   pageIndex: number = 0;
   pageSize: number = 10;
   totalUsers: number = 0;
-  displayedColumns: string[] = ['id', 'firstname', 'lastname', 'username', 'can_create', 'can_read', 'can_update', 'can_delete', 'deleted', 'actions'];
+  displayedColumns: string[] = ['id', 'firstname', 'lastname', 'username', 'can_create', 'can_read', 'can_update', 'can_delete', 'can_search_order', 
+    'can_place_order', 'can_cancel_order', 'can_track_order', 'can_schedule_order','deleted', 'actions'];
   dataSource: MatTableDataSource<UserViewModel> = new MatTableDataSource<UserViewModel>([]);
   subscriptions: Subscription[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private userService: UserService, private router: Router, private permissionService: PermissionService) { }
 
@@ -54,6 +56,7 @@ export class AllUsersComponent implements OnInit {
     this.subscriptions.push(this.userService.getUsers(this.pageIndex, this.pageSize).subscribe(res => {
       this.dataSource.data = res.content;
       this.totalUsers = res.totalElements;
+      this.dataSource.sort = this.sort;
     }));
   }
 
@@ -70,7 +73,7 @@ export class AllUsersComponent implements OnInit {
 
   toggleDelete(user: UserViewModel): void {
 
-    const userHelper: UserDeleteModel = {
+    const userHelper : UserDeleteModel = {
       username: user.username,
       deleted: user.deleted
     };
@@ -87,7 +90,7 @@ export class AllUsersComponent implements OnInit {
 
   }
 
-  navigateToEditUser(user: UserViewModel) {
+  navigateToEditUser(user: UserViewModel){
     this.router.navigate(['/edit-user'], { state: { user } });
   }
 

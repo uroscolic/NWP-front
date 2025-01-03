@@ -31,7 +31,7 @@ mat-toolbar-a {
     left: 50%;
     width: 0;
     height: 0;
-    background-color: rgba(99, 147, 173, 0.062);
+    background-color: rgba(255, 255, 255, 0.062);
     transform: translate(-50%, -50%);
     transition: width 0.2s ease, height 0.2s ease;
     pointer-events: none;
@@ -73,7 +73,7 @@ mat-sidenav {
         color: red;
     }
 
-    background-color: #f0f5ff;
+    background-color: #f0f9ff;
 }
 
 mat-sidenav-content {

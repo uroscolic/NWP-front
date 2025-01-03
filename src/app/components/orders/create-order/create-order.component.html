@@ -1,0 +1,55 @@
+<app-navigation>
+    <div class="search">
+        <div class="form-container">
+            <h3>Order</h3>
+            <form [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+                <mat-radio-group formControlName="orderType" class="radio-group" *ngIf=canSchedule()>
+                    <mat-radio-button value="immediate">Order Now</mat-radio-button>
+                    <mat-radio-button value="scheduled">Schedule for Later</mat-radio-button>
+                </mat-radio-group>
+
+                <div class="dishes-list">
+                    <div *ngFor="let dish of dishes" class="dish-item">
+                      <span>{{ dish.name }} - {{ dish.price }} din.</span>
+                      <div class="actions">
+                        <button mat-icon-button color="primary" type="button" (click)="addDish(dish)">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                        <span>{{ getDishQuantity(dish) }}</span>
+                        <button mat-icon-button color="warn" type="button" (click)="removeDish(dish)">
+                          <mat-icon>remove</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                <div *ngIf="createOrderForm.get('orderType')?.value === 'scheduled'">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Schedule for</mat-label>
+                        <input matInput name="scheduledFor" type="datetime-local" formControlName="scheduledFor">
+                        <mat-error *ngIf="getForm().get('scheduledFor')?.hasError('required')">
+                            Scheduled time is required
+                        </mat-error>
+                        
+                        <mat-error *ngIf="getForm().get('scheduledFor')?.hasError('invalidDate')">
+                            Scheduled time must be in the future
+                        </mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="button-group">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="totalPrice === 0">Order</button>
+                </div>
+                <div *ngIf="orderFailed">
+                    <mat-error>Failed to order! Maximum of 3 active orders reached.</mat-error>
+                </div>
+                <div>
+                    <p>Total Price: <strong>{{ totalPrice }} din.</strong></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</app-navigation>

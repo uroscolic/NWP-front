@@ -59,15 +59,49 @@ export class EditUserComponent implements OnInit, OnDestroy {
       can_create: [false],
       can_read: [false],
       can_update: [false],
-      can_delete: [false]
+      can_delete: [false],
+      can_search_order: [false],
+      can_place_order: [false],
+      can_cancel_order: [false],
+      can_track_order: [false],
+      can_schedule_order: [false]
     });
+  
+    this.editUser(user);
+    this.resetData();
+  
     this.editForm.valueChanges.subscribe(values => {
+
       if ((values.can_create || values.can_update || values.can_delete) && !values.can_read) {
-        this.editForm.patchValue({ can_read: true });
+        this.editForm.patchValue({ can_read: true,
+          can_place_order: true,
+          can_search_order: true,
+          can_cancel_order: true,
+          can_track_order: true,
+          can_schedule_order: true
+         }, { emitEvent: false });
+      }
+    
+      if (values.can_read) {
+        this.editForm.patchValue({
+          can_place_order: true,
+          can_search_order: true,
+          can_cancel_order: true,
+          can_track_order: true,
+          can_schedule_order: true
+        }, { emitEvent: false });
+      }
+    
+      if (
+        values.can_search_order ||
+        values.can_cancel_order ||
+        values.can_track_order ||
+        values.can_schedule_order
+      ) {
+        this.editForm.patchValue({ can_place_order: true }, { emitEvent: false });
       }
     });
-    this.setUserForEdit(user);
-    this.resetData();
+    
   }
 
   onSubmit(): void {
@@ -79,6 +113,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
       const can_create = this.editForm.value.can_create;
       const can_delete = this.editForm.value.can_delete;
       const can_update = this.editForm.value.can_update;
+      const can_search_order = this.editForm.value.can_search_order;
+      const can_place_order = this.editForm.value.can_place_order;
+      const can_cancel_order = this.editForm.value.can_cancel_order;
+      const can_track_order = this.editForm.value.can_track_order;
+      const can_schedule_order = this.editForm.value.can_schedule_order;
 
       const changePost: UserEditModel = {
         id: this.id,
@@ -88,7 +127,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
         can_create: can_create,
         can_read: can_read,
         can_delete: can_delete,
-        can_update: can_update
+        can_update: can_update,
+        can_search_order: can_search_order,
+        can_place_order: can_place_order,
+        can_cancel_order: can_cancel_order,
+        can_track_order: can_track_order,
+        can_schedule_order: can_schedule_order
       };
       this.subscriptions.push(this.userService.editUser(changePost)
         .subscribe(
@@ -124,7 +168,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     });
   }
 
-  setUserForEdit(user: UserViewModel): void {
+  editUser(user: UserViewModel): void {
     this.id = user.id;
     this.editForm.controls['email'].setValue(user.username);
     this.editForm.controls['firstname'].setValue(user.firstname);
@@ -133,8 +177,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editForm.controls['can_read'].setValue(user.can_read);
     this.editForm.controls['can_delete'].setValue(user.can_delete);
     this.editForm.controls['can_update'].setValue(user.can_update);
+    this.editForm.controls['can_search_order'].setValue(user.can_search_order);
+    this.editForm.controls['can_place_order'].setValue(user.can_place_order);
+    this.editForm.controls['can_cancel_order'].setValue(user.can_cancel_order);
+    this.editForm.controls['can_track_order'].setValue(user.can_track_order);
+    this.editForm.controls['can_schedule_order'].setValue(user.can_schedule_order);
   }
-
-
 }
-

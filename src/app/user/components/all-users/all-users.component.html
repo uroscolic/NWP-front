@@ -1,75 +1,115 @@
 <app-navigation>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
-
+      <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
         <td mat-cell *matCellDef="let user"> {{user.id}} </td>
       </ng-container>
 
-
+      <!-- First Name Column -->
       <ng-container matColumnDef="firstname">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
         <td mat-cell *matCellDef="let user"> {{user.firstname}} </td>
       </ng-container>
 
-
+      <!-- Last Name Column -->
       <ng-container matColumnDef="lastname">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
         <td mat-cell *matCellDef="let user"> {{user.lastname}} </td>
       </ng-container>
 
-
+      <!-- Email Column -->
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-        <td class="clickable" *matCellDef="let user" (click)="navigateToEditUser(user)"> {{user.username}} </td>
+        <td class="link" mat-cell *matCellDef="let user" (click)="navigateToEditUser(user)"> {{user.username}} </td>
       </ng-container>
 
       <ng-container matColumnDef="can_create">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Create </th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon *ngIf="user.can_create">done</mat-icon>
-          <mat-icon *ngIf="!user.can_create">clear</mat-icon>
+          <mat-icon *ngIf="user.can_create" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_create" color="warn">close</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="can_read">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Read </th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon *ngIf="user.can_read">done</mat-icon>
-          <mat-icon *ngIf="!user.can_read">clear</mat-icon>
+          <mat-icon *ngIf="user.can_read" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_read" color="warn">close</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="can_update">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Update </th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon *ngIf="user.can_update">done</mat-icon>
-          <mat-icon *ngIf="!user.can_update">clear</mat-icon>
+          <mat-icon *ngIf="user.can_update" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_update" color="warn">close</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="can_delete">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Delete </th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon *ngIf="user.can_delete">done</mat-icon>
-          <mat-icon *ngIf="!user.can_delete">clear</mat-icon>
+          <mat-icon *ngIf="user.can_delete" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_delete" color="warn">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="can_search_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Search Order </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon *ngIf="user.can_search_order" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_search_order" color="warn">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="can_place_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Place Order </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon *ngIf="user.can_place_order" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_place_order" color="warn">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="can_cancel_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Cancel Order </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon *ngIf="user.can_cancel_order" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_cancel_order" color="warn">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="can_track_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Track Order </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon *ngIf="user.can_track_order" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_track_order" color="warn">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="can_schedule_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Can Schedule Order </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon *ngIf="user.can_schedule_order" color="primary">check</mat-icon>
+          <mat-icon *ngIf="!user.can_schedule_order" color="warn">close</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="deleted">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Deleted </th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon *ngIf="user.deleted">done</mat-icon>
-          <mat-icon *ngIf="!user.deleted">clear</mat-icon>
+          <mat-icon *ngIf="user.deleted" color="warn">close</mat-icon>
+          <mat-icon *ngIf="!user.deleted" color="primary">check</mat-icon>
         </td>
       </ng-container>
-
+      <!-- Delete Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let user">
-          <button *ngIf="canDelete()" mat-raised-button color="secondary" (click)="toggleDelete(user)">
-            {{user.deleted ? 'Undelete' : 'Delete'}}
+          <button *ngIf="canDelete()" mat-raised-button color="primary" (click)="toggleDelete(user)">
+            {{user.deleted ? 'Unban' : 'Ban'}}
           </button>
         </td>
       </ng-container>
