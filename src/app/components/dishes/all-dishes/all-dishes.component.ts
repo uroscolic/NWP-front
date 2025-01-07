@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -11,6 +11,7 @@ import { NavigationComponent } from '../../navigation/navigation.component';
 import { DishService } from '../../../service/dish.service';
 import { DishDeleteModel, DishViewModel } from '../../../model/dish-model';
 import { PermissionService } from '../../../service/permisions.service';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const HOME = '/home';
@@ -20,12 +21,12 @@ const HOME = '/home';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     MatPaginatorModule,
     MatSortModule,
     NavigationComponent,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './all-dishes.component.html',
   styleUrl: './all-dishes.component.css',
